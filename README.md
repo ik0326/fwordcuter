@@ -1,4 +1,4 @@
-# fwordcuter
+# fwordcuter(beta版)
 
 このアプリケーションはstreamlitを用いて作成されています。
 <h2>本アプリケーションでできること</h2>
