@@ -50,6 +50,7 @@ def record(recodeTime:int, ngword:list, soundEfect:str="../sounds/beep.wav"):
         if rec.AcceptWaveform(data):
             output = rec.Result()
             json_dict = json.loads(output)
+
             st.write(json_dict['text'])
             st.dataframe(json_dict)
             for word in json_dict['result']:
@@ -76,11 +77,11 @@ def main():
         with open(SETINGJSON) as f:
             NG = json.load(f)
         if NG['ユーザー辞書'] == []:
-            NG = {"ユーザー辞書":["嫌い","あほ"],"config":{"snow":True}}
+            NG = {"ユーザー辞書":["嫌い","あほ"],"config":{"snow":True,"wordlog":True}}
             st.warning("辞書が空だったため、適当に補いました。")
             
     except:
-        NG = {"ユーザー辞書":["嫌い","あほ"],"config":{"snow":True}}
+        NG = {"ユーザー辞書":["嫌い","あほ"],"config":{"snow":True,"wordlog":True}}
         st.warning("辞書が空だったため、適当に補いました。")
     NG_list = NG['ユーザー辞書']
     st.title("Fワード検出機")
@@ -123,8 +124,11 @@ def main():
         NG["config"]["snow"] = st.checkbox("snowエフェクトをオフにする",value=NG['config']['snow'])
 
     with tab1:
+        ngdefault = None
+        if st.button("全選択",help="次のセレクトボックスを全選択します。"):
+            ngdefault = NG_list
         ngword = st.multiselect(
-        '遮断する言葉を選んでください', NG_list
+        '遮断する言葉を選んでください', NG_list,default=ngdefault
         )
         NGWORD = [str(word) for word in ngword]
 
